@@ -23,11 +23,11 @@ module ParentPriority
 				  def safe_attributes_with_parent_priority_unlock=(attrs, user=User.current)
 				    return unless attrs.is_a?(Hash)
 
-				    Rails.logger.info('qwee')
-				    Rails.logger.info($affected)
 				    $affected = Array.new if $affected.nil?
-				    $affected.push(self.id)
-				    $affected = $affected.compact
+				    unless self.id.nil?
+				      $affected.push(self.id)
+				      $affected = $affected.compact
+				    end
 
 				    attrs = attrs.deep_dup
 				
@@ -79,7 +79,7 @@ module ParentPriority
 				
 				    # mass-assignment security bypass
 				    assign_attributes attrs, :without_protection => true
-				    $affected.pop(self.id)
+				    $affected.pop(self.id) unless self.id.nil?
 				  end
 				  def update_parent_attributes_with_parent_priority_unlock
 				    update_parent_attributes_without_parent_priority_unlock unless $affected.include? parent_id
