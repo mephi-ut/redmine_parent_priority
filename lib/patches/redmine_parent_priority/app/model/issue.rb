@@ -18,6 +18,9 @@ module ParentPriority
 					end
 				end
 
+				def inherit_the_rest(attrs, user=User.current)
+				end
+
 				  # The code is based on original Redmine's code (read it LICENSE file, please)
 				  # https://github.com/redmine/redmine/blob/78120536b15e723feacb1552396d85665010d8eb/app/models/issue.rb
 				  def safe_attributes_with_parent_priority_unlock=(attrs, user=User.current)
@@ -58,6 +61,7 @@ module ParentPriority
 				          inherit_priority(child, attrs[:priority_id], user)
 				        end
 				      end
+				      inherit_the_rest(attrs, user)
 				    end
 				
 				    if attrs['parent_issue_id'].present?
