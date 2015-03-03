@@ -55,13 +55,13 @@ module ParentPriority
 				    return if attrs.empty?
 				
 				    unless leaf?
-				      attrs.reject! {|k,v| %w(done_ratio start_date due_date estimated_hours).include?(k)}
+				      inherit_the_rest(attrs, user)
+				      attrs.reject! {|k,v| %w(done_ratio estimated_hours).include?(k)}
 				      if attrs[:priority_id] != self.priority_id
 				        self.children.each do |child|
 				          inherit_priority(child, attrs[:priority_id], user)
 				        end
 				      end
-				      inherit_the_rest(attrs, user)
 				    end
 				
 				    if attrs['parent_issue_id'].present?
