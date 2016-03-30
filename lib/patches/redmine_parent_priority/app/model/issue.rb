@@ -7,7 +7,9 @@ module ParentPriority
 				unloadable
 
 				def inherit_priority(issue, priority_id, user)
+					return if issue.nil?
 					return if issue.status.is_closed?
+					return if priority_id.nil?
 					return if issue.priority_id == priority_id
 					issue.init_journal(user)
 					issue.priority_id = priority_id
