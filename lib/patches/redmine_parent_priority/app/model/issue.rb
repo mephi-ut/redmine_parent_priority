@@ -88,8 +88,9 @@ module ParentPriority
 				    $affected.pop(self.id) unless self.id.nil?
 				  end
 				  def update_parent_attributes_with_parent_priority_unlock
-				    return update_parent_attributes_without_parent_priority_unlock if $affected.nil?
-				    return update_parent_attributes_without_parent_priority_unlock unless $affected.include? parent_id
+				    return false if $affected.include? parent_id unless $affected.nil?
+
+				    update_parent_attributes_without_parent_priority_unlock
 				  end
 
 				alias_method_chain :update_parent_attributes, :parent_priority_unlock
